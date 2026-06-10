@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+:root {
+  --background: hsl(0 0% 99%);
+  --foreground: hsl(0 0% 6%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(0 0% 6%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(0 0% 6%);
+  --primary: hsl(348 83% 47%);   /* Rojo Carmesí */
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(350 15% 94%);
+  --secondary-foreground: hsl(348 83% 30%);
+  --muted: hsl(350 10% 95%);
+  --muted-foreground: hsl(350 10% 40%);
+  --accent: hsl(348 50% 95%);
+  --accent-foreground: hsl(348 83% 35%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(350 15% 88%);
+  --input: hsl(350 15% 88%);
+  --ring: hsl(348 83% 47%);
+  --radius: 1rem;
+}
+
+.dark {
+  --background: hsl(350 20% 5%);
+  --foreground: hsl(0 0% 98%);
+  --card: hsl(350 15% 8%);
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(350 15% 8%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(348 83% 55%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(350 15% 14%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(350 10% 12%);
+  --muted-foreground: hsl(350 8% 65%);
+  --accent: hsl(348 40% 16%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(350 12% 16%);
+  --input: hsl(350 12% 16%);
+  --ring: hsl(348 83% 55%);
+}
+
+/* Glassmorphism Classes */
+.glass {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.dark .glass {
+  background: rgba(10, 15, 26, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Base resets & animations */
+body {
+  @apply bg-background text-foreground antialiased selection:bg-primary/20 transition-colors duration-300;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
