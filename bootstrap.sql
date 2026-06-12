@@ -1,7 +1,6 @@
 -- =========================
 -- 1) Esquemas
 -- =========================
-create schema if not exists "Cobranzas";
 create schema if not exists public;
 
 -- =========================
@@ -30,53 +29,10 @@ begin
   end if;
 end $$;
 
--- =========================
--- 3) Tablas Cobranzas
--- =========================
-create table if not exists "Cobranzas"."cliente" (
-  "id_cliente" uuid primary key,
-  "nombre" text not null,
-  "telefono" text,
-  "created_at" timestamptz not null default now()
-);
 
-create table if not exists "Cobranzas"."deuda" (
-  "id_deuda" uuid primary key,
-  "id_cliente" uuid not null,
-  "monto" numeric not null,
-  "moneda" text not null,
-  "fecha_vencimiento_original" date not null,
-  "fecha_vencimiento_actualizada" date not null,
-  "estado" text not null,
-  "created_at" timestamptz not null default now(),
-  "updated_at" timestamptz not null default now(),
-  "metodo_pago" text,
-  "fecha_pago" date,
-  constraint "deuda_id_cliente_fkey"
-    foreign key ("id_cliente") references "Cobranzas"."cliente" ("id_cliente")
-);
-
-create table if not exists "Cobranzas"."compromiso_pago" (
-  "id_compromiso" uuid primary key,
-  "id_deuda" uuid not null,
-  "nueva_fecha_acordada" date not null,
-  "mensaje_usuario" text,
-  "created_at" timestamptz not null default now(),
-  constraint "compromiso_pago_id_deuda_fkey"
-    foreign key ("id_deuda") references "Cobranzas"."deuda" ("id_deuda")
-);
-
-create table if not exists "Cobranzas"."resumen_llamada" (
-  "id_intento" uuid primary key,
-  "id_deuda" uuid not null,
-  "resumen" text not null,
-  "created_at" timestamptz not null default now(),
-  constraint "resumen_llamada_id_deuda_fkey"
-    foreign key ("id_deuda") references "Cobranzas"."deuda" ("id_deuda")
-);
 
 -- =========================
--- 4) Tablas public
+-- 3) Tablas public
 -- =========================
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id),
@@ -217,7 +173,7 @@ create table if not exists public.cafeteria_bank_accounts (
 );
 
 -- =========================
--- 5) RLS habilitado (tablas public)
+-- 4) RLS habilitado (tablas public)
 -- =========================
 alter table public.profiles enable row level security;
 alter table public.allowed_email_domains enable row level security;
