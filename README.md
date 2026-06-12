@@ -97,41 +97,33 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aquí
 
 ### 4. Configurar la base de datos en Supabase
 
-Tienes dos opciones para levantar el esquema de la base de datos:
+Ejecuta los dos archivos SQL **en orden** desde el **SQL Editor** de tu Dashboard de Supabase:
 
-#### Opción A: Usar `bootstrap.sql` (rápido)
+#### Paso 1 — [`001_bootstrap.sql`](./001_bootstrap.sql)
 
-1. Ve al **SQL Editor** en tu Dashboard de Supabase.
-2. Copia y pega el contenido de [`bootstrap.sql`](./bootstrap.sql).
+1. Ve a **SQL Editor** en tu Dashboard de Supabase.
+2. Copia y pega el contenido de `001_bootstrap.sql`.
 3. Haz clic en **Run**.
 
 Este script crea:
-- Los esquemas `public` y `Cobranzas`
 - Los tipos ENUM para roles, estados de pedido, pagos, etc.
-- Todas las tablas (perfiles, cafeterías, productos, pedidos, entregas, reseñas…)
+- Todas las tablas (`profiles`, `cafeterias`, `products`, `orders`, `order_items`, `reviews`…)
 - Habilita **Row Level Security (RLS)** en todas las tablas
 
-#### Opción B: Usar migraciones completas (recomendado para producción)
+#### Paso 2 — [`002_auth_storage_policies.sql`](./002_auth_storage_policies.sql)
 
-Ejecuta los archivos SQL del directorio `supabase/migrations/` **en orden**:
+1. En el mismo **SQL Editor**, abre un nuevo query.
+2. Copia y pega el contenido de `002_auth_storage_policies.sql`.
+3. Haz clic en **Run**.
 
-1. **`001_uide_campus_delivery_complete.sql`** — Esquema completo + funciones + políticas RLS
-2. **`002_uide_campus_delivery_seed.sql`** — Datos de prueba (cafeterías, productos, pedidos de ejemplo)
-3. **`003_fix_orders_rls.sql`** — Correcciones de políticas RLS para pedidos
+Este script añade:
+- Funciones de autorización (`get_my_role`, `is_cafeteria_owner`)
+- Trigger automático para crear el perfil al registrarse
+- Buckets de Storage (`payment-proofs`, `rider-documents`, `cafeteria-assets`, `product-images`)
+- Políticas de acceso para cada bucket
 
-```bash
-# Desde el SQL Editor de Supabase, ejecuta cada archivo en orden
-```
+### 5. Iniciar el servidor de desarrollo
 
-### 5. Configurar Storage (opcional, para imágenes)
-
-Para que las imágenes de productos y comprobantes funcionen correctamente:
-
-1. Crea un bucket **público** llamado `product-images` en **Storage → Buckets**
-2. Crea un bucket **privado** llamado `payment-proofs`
-3. Sigue las instrucciones detalladas en [`supabase/storage_instructions.md`](../supabase/storage_instructions.md)
-
-### 6. Iniciar el servidor de desarrollo
 
 ```bash
 pnpm dev
